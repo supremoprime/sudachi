@@ -1459,7 +1459,7 @@ void GMainWindow::OnAppFocusStateChanged(Qt::ApplicationState state) {
             (state & (Qt::ApplicationHidden | Qt::ApplicationInactive))) {
             auto_paused = true;
             OnPauseGame();
-        } else if (!emu_thread->IsRunning() && auto_paused && state == Qt::ApplicationActive) {
+        } else if (!emu_thread->IsRunning() && auto_paused && (state & Qt::ApplicationActive)) {
             auto_paused = false;
             OnStartGame();
         }
@@ -1469,7 +1469,7 @@ void GMainWindow::OnAppFocusStateChanged(Qt::ApplicationState state) {
             (state & (Qt::ApplicationHidden | Qt::ApplicationInactive))) {
             Settings::values.audio_muted = true;
             auto_muted = true;
-        } else if (auto_muted && state == Qt::ApplicationActive) {
+        } else if (auto_muted && (state & Qt::ApplicationActive)) {
             Settings::values.audio_muted = false;
             auto_muted = false;
         }
