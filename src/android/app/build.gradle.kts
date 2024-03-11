@@ -25,9 +25,9 @@ val autoVersion = (((System.currentTimeMillis() / 1000) - 1451606400) / 10).toIn
 @Suppress("UnstableApiUsage")
 android {
     namespace = "org.yuzu.yuzu_emu"
+    compileSdk = 34
 
-    compileSdkVersion = "android-34"
-    ndkVersion = "26.1.10909125"
+    ndkVersion = "26.2.11394342"
 
     buildFeatures {
         viewBinding = true
@@ -161,6 +161,7 @@ android {
             path = file("../../../CMakeLists.txt")
         }
     }
+    buildToolsVersion = "34.0.0"
 
     defaultConfig {
         externalNativeBuild {
@@ -232,7 +233,7 @@ dependencies {
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.preference:preference-ktx:1.2.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
-    implementation("io.coil-kt:coil:2.2.2")
+    implementation("io.coil-kt:coil:2.6.0")
     implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("androidx.window:window:1.2.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
@@ -240,7 +241,7 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
     implementation("info.debatty:java-string-similarity:2.0.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
 }
 
 fun runGitCommand(command: List<String>): String {
