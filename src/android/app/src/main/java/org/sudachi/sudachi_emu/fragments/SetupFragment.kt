@@ -4,6 +4,7 @@
 package org.sudachi.sudachi_emu.fragments
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -59,6 +60,7 @@ class SetupFragment : Fragment() {
         const val KEY_NEXT_VISIBILITY = "NextButtonVisibility"
         const val KEY_BACK_VISIBILITY = "BackButtonVisibility"
         const val KEY_HAS_BEEN_WARNED = "HasBeenWarned"
+        const val MANAGE_STORAGE_REQUEST_CODE = 369
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,6 +81,10 @@ class SetupFragment : Fragment() {
         mainActivity = requireActivity() as MainActivity
 
         homeViewModel.setNavigationVisibility(visible = false, animated = false)
+
+        mainActivity.openUserDataFolderSelectCallback = fun() {
+            getUserDataDirectory.launch(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).data)
+        }
 
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
@@ -141,6 +147,35 @@ class SetupFragment : Fragment() {
                 )
             }
 
+            add(
+                SetupPage(
+                    R.drawable.ic_home,
+                    R.string.user_data,
+                    R.string.user_data_selection_description,
+                    R.drawable.ic_add,
+                    true,
+                    R.string.select_user_data,
+                    { it ->
+                        userDataDirCallback = it
+                        handleStoragePermission {
+                            if (it) {
+                                getUserDataDirectory.launch(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).data)
+                            }
+                        }
+                    },
+                    true,
+                    R.string.select_user_data_warning,
+                    R.string.select_user_data_warning_description,
+                    R.string.select_user_data_warning_description_help,
+                    {
+                        if (DirectoryInitialization.isUserDataDirectorySelected) {
+                            StepState.COMPLETE
+                        } else {
+                            StepState.INCOMPLETE
+                        }
+                    }
+                )
+            )
             add(
                 SetupPage(
                     R.drawable.ic_key,
@@ -321,6 +356,16 @@ class SetupFragment : Fragment() {
             }
         }
 
+    private lateinit var userDataDirCallback: SetupCallback
+
+    private val getUserDataDirectory =
+        registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) { result ->
+            if (result != null) {
+                mainActivity.processUserDataDir(result)
+                userDataDirCallback.onStepCompleted()
+            }
+        }
+
     private lateinit var keyCallback: SetupCallback
 
     val getProdKey =
@@ -393,4 +438,22 @@ class SetupFragment : Fragment() {
             }
             windowInsets
         }
+
+    @SuppressLint("InlinedApi")
+    fun handleStoragePermission(callback: (granted: Boolean) -> Unit) {
+        if (mainActivity.hasStoragePermission()) {
+            callback(true)
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                val intent = Intent()
+                intent.action = android.provider.Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION
+                startActivityForResult(intent, MANAGE_STORAGE_REQUEST_CODE)
+            } else {
+                val intent =
+                    Intent(android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
+                intent.addCategory("android.intent.category.DEFAULT")
+                startActivityForResult(intent, MANAGE_STORAGE_REQUEST_CODE)
+            }
+        }
+    }
 }

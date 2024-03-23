@@ -3,9 +3,16 @@
 
 package org.sudachi.sudachi_emu.ui.main
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.os.storage.StorageManager
+import android.os.storage.StorageVolume
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
 import android.view.WindowManager
@@ -14,6 +21,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
@@ -35,6 +43,7 @@ import org.sudachi.sudachi_emu.features.settings.model.Settings
 import org.sudachi.sudachi_emu.fragments.AddGameFolderDialogFragment
 import org.sudachi.sudachi_emu.fragments.ProgressDialogFragment
 import org.sudachi.sudachi_emu.fragments.MessageDialogFragment
+import org.sudachi.sudachi_emu.fragments.SetupFragment
 import org.sudachi.sudachi_emu.model.AddonViewModel
 import org.sudachi.sudachi_emu.model.DriverViewModel
 import org.sudachi.sudachi_emu.model.GamesViewModel
@@ -62,6 +71,8 @@ class MainActivity : AppCompatActivity(), ThemeProvider {
 
     private val CHECKED_DECRYPTION = "CheckedDecryption"
     private var checkedDecryption = false
+
+    var openUserDataFolderSelectCallback: () -> Unit = { }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
@@ -289,6 +300,15 @@ class MainActivity : AppCompatActivity(), ThemeProvider {
     override fun setTheme(resId: Int) {
         super.setTheme(resId)
         themeId = resId
+    }
+
+    fun processUserDataDir(result: Uri) {
+        contentResolver.takePersistableUriPermission(
+            result,
+            Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+        )
+
+        DirectoryInitialization.setCustomInternalStorage(getUserDataSelectedPath(result))
     }
 
     val getGamesDirectory =
@@ -689,4 +709,52 @@ class MainActivity : AppCompatActivity(), ThemeProvider {
                 return@newInstance getString(R.string.user_data_import_success)
             }.show(supportFragmentManager, ProgressDialogFragment.TAG)
         }
+
+    private fun getUserDataSelectedPath(selectedUri: Uri): String? {
+        val uriParts = Uri.decode(selectedUri.toString()).split(":")
+        if (uriParts.size != 3) {
+            Toast.makeText(applicationContext, R.string.select_user_data_error, Toast.LENGTH_LONG)
+                .show()
+            return null
+        }
+        val subPath = uriParts.last()
+        val basePath = if (uriParts[1].contains("primary")) {
+            applicationContext.getExternalFilesDir(null).toString().split("Android").first()
+        } else {
+            getRemovableDirectory()
+        }
+        return "${basePath}/${subPath}"
+    }
+
+    private fun getRemovableDirectory(): String? {
+        val storageManager = applicationContext.getSystemService(STORAGE_SERVICE) as StorageManager
+        val volumes: List<StorageVolume> = storageManager.storageVolumes.toList()
+        for (volume in volumes) {
+            if (volume.isRemovable)
+                return volume.directory?.absolutePath
+        }
+        return null
+    }
+
+    fun hasStoragePermission(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            Environment.isExternalStorageManager()
+        } else {
+            ActivityCompat.checkSelfPermission(
+                applicationContext,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED
+        }
+    }
+
+    // TODO: Verify activity result.
+    @SuppressLint("NewApi")
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
+        super.onActivityResult(requestCode, resultCode, resultData)
+
+        if (requestCode == SetupFragment.MANAGE_STORAGE_REQUEST_CODE) {
+            if (hasStoragePermission()) openUserDataFolderSelectCallback()
+        }
+    }
 }

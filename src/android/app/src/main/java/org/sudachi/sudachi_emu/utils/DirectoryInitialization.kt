@@ -3,6 +3,9 @@
 
 package org.sudachi.sudachi_emu.utils
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.widget.Toast
 import androidx.preference.PreferenceManager
 import java.io.IOException
 import org.sudachi.sudachi_emu.NativeLibrary
@@ -14,11 +17,18 @@ import org.sudachi.sudachi_emu.overlay.model.OverlayControlData
 import org.sudachi.sudachi_emu.overlay.model.OverlayControl
 import org.sudachi.sudachi_emu.overlay.model.OverlayLayout
 import org.sudachi.sudachi_emu.utils.PreferenceUtil.migratePreference
+import java.io.File
+import org.sudachi.sudachi_emu.R
 
 object DirectoryInitialization {
     private var userPath: String? = null
 
     var areDirectoriesReady: Boolean = false
+
+    var isUserDataDirectorySelected: Boolean = false
+
+    private const val CUSTOM_USER_DATA_FILE = "user_data_info.ini"
+    private const val CUSTOM_USER_DATA_KEY = "folder_location"
 
     fun start() {
         if (!areDirectoriesReady) {
@@ -38,15 +48,66 @@ object DirectoryInitialization {
 
     private fun initializeInternalStorage() {
         try {
-            userPath = SudachiApplication.appContext.getExternalFilesDir(null)!!.canonicalPath
+            userPath =
+                readCustomUserDataDirectory() ?: SudachiApplication.appContext.getExternalFilesDir(
+                    null
+                )!!.canonicalPath
             NativeLibrary.setAppDirectory(userPath!!)
         } catch (e: IOException) {
             e.printStackTrace()
         }
     }
 
+    fun setCustomInternalStorage(customPath: String? = null) {
+        try {
+            if (customPath == null) {
+                initializeInternalStorage()
+            } else {
+                userPath = customPath
+                NativeLibrary.setAppDirectory(userPath!!)
+                saveCustomUserDataDirectory(userPath!!)
+                NativeLibrary.initializeSystem(true)
+                NativeConfig.initializeGlobalConfig()
+                migrateSettings()
+                isUserDataDirectorySelected = true
+                Toast.makeText(
+                    SudachiApplication.appContext,
+                    R.string.select_user_data_success,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+    }
+
+    @SuppressLint("CommitPrefEdits")
+    private fun saveCustomUserDataDirectory(customPath: String) {
+        val sharedPrefs = SudachiApplication.appContext.getSharedPreferences(
+            CUSTOM_USER_DATA_FILE,
+            Context.MODE_PRIVATE
+        )
+        val editor = sharedPrefs.edit()
+        editor.putString(CUSTOM_USER_DATA_KEY, customPath)
+        editor.apply()
+    }
+
+    fun readCustomUserDataDirectory(): String? {
+        val sharedPrefs = SudachiApplication.appContext.getSharedPreferences(
+            CUSTOM_USER_DATA_FILE,
+            Context.MODE_PRIVATE
+        )
+        return sharedPrefs.getString(CUSTOM_USER_DATA_KEY, null)
+    }
+
+    private fun removeRedundantFolders() {
+        val dir = File(SudachiApplication.appContext.getExternalFilesDir(null)!!.canonicalPath)
+        if (dir.exists()) dir.deleteRecursively()
+    }
+
     private fun migrateSettings() {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(SudachiApplication.appContext)
+        val preferences =
+            PreferenceManager.getDefaultSharedPreferences(SudachiApplication.appContext)
         var saveConfig = false
         val theme = preferences.migratePreference<Int>(Settings.PREF_THEME)
         if (theme != null) {

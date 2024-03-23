@@ -24,6 +24,16 @@
     <string name="add_games_description">Selecione sua pasta de Jogos</string>
     <string name="step_complete">Concluído!</string>
 
+    <!-- User data strings -->
+    <string name="user_data_selection_description">Selecione a pasta de <b>Dados do Usuário</b> com o botão abaixo.</string>
+    <string name="select_user_data">Selecionar Pasta</string>
+    <string name="select_user_data_warning">Ignorar a seleção de dados do usuário?</string>
+    <string name="select_user_data_warning_description">Se você pular esta etapa, o diretório será o padrão do seu dispositivo Android.</string>
+    <string name="select_user_data_warning_description_help">https://suyu.dev/</string>
+    <string name="select_user_data_default">Local dos dados do usuário definido como padrão.</string>
+    <string name="select_user_data_error">Falha ao selecionar os dados do usuário usando o diretório padrão.</string>
+    <string name="select_user_data_success">Pasta de dados do usuário selecionada com sucesso!</string>
+
     <!-- Home strings -->
     <string name="home_games">Jogos</string>
     <string name="home_search">Pesquisar</string>
