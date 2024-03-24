@@ -32,7 +32,7 @@
     <string name="select_user_data">Select Folder</string>
     <string name="select_user_data_warning">Skip user data selection?</string>
     <string name="select_user_data_warning_description">If you skip this step, the directory will be the default directory for your Android device.</string>
-    <string name="select_user_data_warning_description_help">https://suyu.dev/</string>
+    <string name="select_user_data_warning_description_help">https://sudachi-emu.org/</string>
     <string name="select_user_data_default">User data location set as default.</string>
     <string name="select_user_data_error">Failed to select user data, using default directory.</string>
     <string name="select_user_data_success">User data folder selected successfully!</string>

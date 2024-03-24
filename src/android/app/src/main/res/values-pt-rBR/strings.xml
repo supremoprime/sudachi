@@ -29,7 +29,7 @@
     <string name="select_user_data">Selecionar Pasta</string>
     <string name="select_user_data_warning">Ignorar a seleção de dados do usuário?</string>
     <string name="select_user_data_warning_description">Se você pular esta etapa, o diretório será o padrão do seu dispositivo Android.</string>
-    <string name="select_user_data_warning_description_help">https://suyu.dev/</string>
+    <string name="select_user_data_warning_description_help">https://sudachi-emu.org/</string>
     <string name="select_user_data_default">Local dos dados do usuário definido como padrão.</string>
     <string name="select_user_data_error">Falha ao selecionar os dados do usuário usando o diretório padrão.</string>
     <string name="select_user_data_success">Pasta de dados do usuário selecionada com sucesso!</string>
