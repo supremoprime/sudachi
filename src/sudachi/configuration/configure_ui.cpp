@@ -256,8 +256,8 @@ void ConfigureUi::InitializeLanguageComboBox() {
         locale.truncate(locale.lastIndexOf(QLatin1Char{'.'}));
         locale.remove(0, locale.lastIndexOf(QLatin1Char{'/'}) + 1);
         const QString lang = QLocale::languageToString(QLocale(locale).language());
-        const QString country = QLocale::countryToString(QLocale(locale).country());
-        ui->language_combobox->addItem(QStringLiteral("%1 (%2)").arg(lang, country), locale);
+        const QString territory = QLocale::territoryToString(QLocale(locale).territory());
+        ui->language_combobox->addItem(QStringLiteral("%1 (%2)").arg(lang, territory), locale);
     }
 
     // Unlike other configuration changes, interface language changes need to be reflected on the
