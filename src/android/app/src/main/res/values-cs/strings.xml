@@ -99,13 +99,6 @@
     <string name="support_link">https://discord.gg/u77vRWY</string>
     <string name="website_link">https://sudachi-emu.org/</string>
     <string name="github_link">https://github.com/sudachi-emu</string>
-
-    <string name="play_store_link">https://play.google.com/store/apps/details?id=org.sudachi.sudachi_emu.ea</string>
-    <string name="no_manual_installation">Žádná manuální instalace</string>
-    <string name="prioritized_support">Prioritní podpora</string>
-    <string name="our_eternal_gratitude">Naše věčná vděčnost</string>
-    <string name="are_you_interested">Máte zájem?</string>
-
     <!-- General settings strings -->
     <string name="frame_limit_enable">Omezit rychlost</string>
     <string name="cpu_accuracy">CPU přesnost</string>
