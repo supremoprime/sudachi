@@ -46,6 +46,11 @@ object DirectoryInitialization {
             return userPath
         }
 
+    val isCustomUserDirectory: Boolean
+        get() {
+            return readCustomUserDataDirectory() != null
+        }
+
     private fun initializeInternalStorage() {
         try {
             userPath =
@@ -69,6 +74,7 @@ object DirectoryInitialization {
                 NativeLibrary.initializeSystem(true)
                 NativeConfig.initializeGlobalConfig()
                 migrateSettings()
+                clearDefaultUserDataFolder()
                 isUserDataDirectorySelected = true
                 Toast.makeText(
                     SudachiApplication.appContext,
@@ -92,7 +98,7 @@ object DirectoryInitialization {
         editor.apply()
     }
 
-    fun readCustomUserDataDirectory(): String? {
+    private fun readCustomUserDataDirectory(): String? {
         val sharedPrefs = SudachiApplication.appContext.getSharedPreferences(
             CUSTOM_USER_DATA_FILE,
             Context.MODE_PRIVATE
@@ -100,7 +106,7 @@ object DirectoryInitialization {
         return sharedPrefs.getString(CUSTOM_USER_DATA_KEY, null)
     }
 
-    private fun removeRedundantFolders() {
+    private fun clearDefaultUserDataFolder() {
         val dir = File(SudachiApplication.appContext.getExternalFilesDir(null)!!.canonicalPath)
         if (dir.exists()) dir.deleteRecursively()
     }

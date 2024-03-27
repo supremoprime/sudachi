@@ -7,6 +7,7 @@ import android.Manifest
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.provider.DocumentsContract
 import android.view.LayoutInflater
@@ -40,6 +41,7 @@ import org.sudachi.sudachi_emu.model.DriverViewModel
 import org.sudachi.sudachi_emu.model.HomeSetting
 import org.sudachi.sudachi_emu.model.HomeViewModel
 import org.sudachi.sudachi_emu.ui.main.MainActivity
+import org.sudachi.sudachi_emu.utils.DirectoryInitialization
 import org.sudachi.sudachi_emu.utils.FileUtil
 import org.sudachi.sudachi_emu.utils.GpuDriverHelper
 import org.sudachi.sudachi_emu.utils.Log
@@ -266,6 +268,15 @@ class HomeSettingsFragment : Fragment() {
     }
 
     private fun openFileManager() {
+        // Verify if is a custom user data folder.
+        if (DirectoryInitialization.isCustomUserDirectory) {
+            try {
+                startActivity(getCustomFileManagerOnDocumentProvider())
+                return
+            } catch (_: ActivityNotFoundException) {
+            }
+        }
+
         // First, try to open the user data folder directly
         try {
             startActivity(getFileManagerIntentOnDocumentProvider(Intent.ACTION_VIEW))
@@ -317,8 +328,19 @@ class HomeSettingsFragment : Fragment() {
         intent.data = DocumentsContract.buildRootUri(authority, DocumentProvider.ROOT_ID)
         intent.addFlags(
             Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION or
-                Intent.FLAG_GRANT_PREFIX_URI_PERMISSION or
-                Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                    Intent.FLAG_GRANT_PREFIX_URI_PERMISSION or
+                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+        )
+        return intent
+    }
+
+    private fun getCustomFileManagerOnDocumentProvider(): Intent {
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.setDataAndType(Uri.parse(DirectoryInitialization.userDirectory), "resource/folder")
+        intent.addFlags(
+            Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION or
+                    Intent.FLAG_GRANT_PREFIX_URI_PERMISSION or
+                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION
         )
         return intent
     }
