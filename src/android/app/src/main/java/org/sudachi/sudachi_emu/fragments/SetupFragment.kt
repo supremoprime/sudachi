@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -27,7 +28,6 @@ import androidx.navigation.findNavController
 import androidx.preference.PreferenceManager
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.google.android.material.transition.MaterialFadeThrough
-import kotlinx.coroutines.launch
 import org.sudachi.sudachi_emu.NativeLibrary
 import java.io.File
 import org.sudachi.sudachi_emu.R
@@ -60,7 +60,6 @@ class SetupFragment : Fragment() {
         const val KEY_NEXT_VISIBILITY = "NextButtonVisibility"
         const val KEY_BACK_VISIBILITY = "BackButtonVisibility"
         const val KEY_HAS_BEEN_WARNED = "HasBeenWarned"
-        const val MANAGE_STORAGE_REQUEST_CODE = 369
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -136,7 +135,7 @@ class SetupFragment : Fragment() {
                         0,
                         {
                             if (NotificationManagerCompat.from(requireContext())
-                                .areNotificationsEnabled()
+                                    .areNotificationsEnabled()
                             ) {
                                 StepState.COMPLETE
                             } else {
@@ -157,7 +156,7 @@ class SetupFragment : Fragment() {
                     R.string.select_user_data,
                     { it ->
                         userDataDirCallback = it
-                        handleStoragePermission {
+                        mainActivity.handleStoragePermission {
                             if (it) {
                                 getUserDataDirectory.launch(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).data)
                             }
@@ -439,21 +438,4 @@ class SetupFragment : Fragment() {
             windowInsets
         }
 
-    @SuppressLint("InlinedApi")
-    fun handleStoragePermission(callback: (granted: Boolean) -> Unit) {
-        if (mainActivity.hasStoragePermission()) {
-            callback(true)
-        } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                val intent = Intent()
-                intent.action = android.provider.Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION
-                startActivityForResult(intent, MANAGE_STORAGE_REQUEST_CODE)
-            } else {
-                val intent =
-                    Intent(android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
-                intent.addCategory("android.intent.category.DEFAULT")
-                startActivityForResult(intent, MANAGE_STORAGE_REQUEST_CODE)
-            }
-        }
-    }
 }

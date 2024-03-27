@@ -38,6 +38,7 @@ import java.io.FilenameFilter
 import org.sudachi.sudachi_emu.HomeNavigationDirections
 import org.sudachi.sudachi_emu.NativeLibrary
 import org.sudachi.sudachi_emu.R
+import org.sudachi.sudachi_emu.SudachiApplication
 import org.sudachi.sudachi_emu.databinding.ActivityMainBinding
 import org.sudachi.sudachi_emu.features.settings.model.Settings
 import org.sudachi.sudachi_emu.fragments.AddGameFolderDialogFragment
@@ -736,7 +737,7 @@ class MainActivity : AppCompatActivity(), ThemeProvider {
         return null
     }
 
-    fun hasStoragePermission(): Boolean {
+    private fun hasStoragePermission(): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             Environment.isExternalStorageManager()
         } else {
@@ -747,14 +748,35 @@ class MainActivity : AppCompatActivity(), ThemeProvider {
         }
     }
 
-    // TODO: Verify activity result.
+    @SuppressLint("InlinedApi")
+    fun handleStoragePermission(callback: (granted: Boolean) -> Unit) {
+        if (hasStoragePermission()) {
+            callback(true)
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                val intent = Intent()
+                intent.action = android.provider.Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION
+                startActivityForResult(intent, MANAGE_STORAGE_REQUEST_CODE)
+            } else {
+                val intent =
+                    Intent(android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
+                intent.addCategory("android.intent.category.DEFAULT")
+                startActivityForResult(intent, MANAGE_STORAGE_REQUEST_CODE)
+            }
+        }
+    }
+
     @SuppressLint("NewApi")
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
         super.onActivityResult(requestCode, resultCode, resultData)
 
-        if (requestCode == SetupFragment.MANAGE_STORAGE_REQUEST_CODE) {
+        if (requestCode == MANAGE_STORAGE_REQUEST_CODE) {
             if (hasStoragePermission()) openUserDataFolderSelectCallback()
         }
+    }
+
+    companion object {
+        const val MANAGE_STORAGE_REQUEST_CODE = 369
     }
 }
