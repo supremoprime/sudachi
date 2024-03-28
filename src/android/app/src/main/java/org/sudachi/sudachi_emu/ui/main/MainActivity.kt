@@ -11,8 +11,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
-import android.os.storage.StorageManager
-import android.os.storage.StorageVolume
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
 import android.view.WindowManager
@@ -38,13 +36,11 @@ import java.io.FilenameFilter
 import org.sudachi.sudachi_emu.HomeNavigationDirections
 import org.sudachi.sudachi_emu.NativeLibrary
 import org.sudachi.sudachi_emu.R
-import org.sudachi.sudachi_emu.SudachiApplication
 import org.sudachi.sudachi_emu.databinding.ActivityMainBinding
 import org.sudachi.sudachi_emu.features.settings.model.Settings
 import org.sudachi.sudachi_emu.fragments.AddGameFolderDialogFragment
 import org.sudachi.sudachi_emu.fragments.ProgressDialogFragment
 import org.sudachi.sudachi_emu.fragments.MessageDialogFragment
-import org.sudachi.sudachi_emu.fragments.SetupFragment
 import org.sudachi.sudachi_emu.model.AddonViewModel
 import org.sudachi.sudachi_emu.model.DriverViewModel
 import org.sudachi.sudachi_emu.model.GamesViewModel
@@ -722,19 +718,9 @@ class MainActivity : AppCompatActivity(), ThemeProvider {
         val basePath = if (uriParts[1].contains("primary")) {
             applicationContext.getExternalFilesDir(null).toString().split("Android").first()
         } else {
-            getRemovableDirectory()
+            FileUtil.getRemovableDirectory()
         }
         return "${basePath}/${subPath}"
-    }
-
-    private fun getRemovableDirectory(): String? {
-        val storageManager = applicationContext.getSystemService(STORAGE_SERVICE) as StorageManager
-        val volumes: List<StorageVolume> = storageManager.storageVolumes.toList()
-        for (volume in volumes) {
-            if (volume.isRemovable)
-                return volume.directory?.absolutePath
-        }
-        return null
     }
 
     private fun hasStoragePermission(): Boolean {
@@ -770,7 +756,6 @@ class MainActivity : AppCompatActivity(), ThemeProvider {
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
         super.onActivityResult(requestCode, resultCode, resultData)
-
         if (requestCode == MANAGE_STORAGE_REQUEST_CODE) {
             if (hasStoragePermission()) openUserDataFolderSelectCallback()
         }

@@ -5,6 +5,7 @@ package org.sudachi.sudachi_emu.fragments
 
 import android.Manifest
 import android.content.ActivityNotFoundException
+import android.content.ContentResolver
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -335,13 +336,21 @@ class HomeSettingsFragment : Fragment() {
     }
 
     private fun getCustomFileManagerOnDocumentProvider(): Intent {
+        val userPath = DirectoryInitialization.userDirectory
+        val documentId = if (FileUtil.isRemovableDirectory(userPath!!)) "secondary" else "primary"
+
+        val rootUri =
+            DocumentsContract.buildDocumentUri("com.android.externalstorage.documents", documentId)
+
+        val uriBuilder = Uri.Builder()
+            .authority(rootUri.authority)
+            .scheme(ContentResolver.SCHEME_CONTENT)
+            .appendEncodedPath("document")
+            .appendPath(userPath)
+
         val intent = Intent(Intent.ACTION_VIEW)
-        intent.setDataAndType(Uri.parse(DirectoryInitialization.userDirectory), "resource/folder")
-        intent.addFlags(
-            Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION or
-                    Intent.FLAG_GRANT_PREFIX_URI_PERMISSION or
-                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-        )
+        intent.data = uriBuilder.build()
+
         return intent
     }
 

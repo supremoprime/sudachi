@@ -5,7 +5,10 @@ package org.sudachi.sudachi_emu.utils
 
 import android.database.Cursor
 import android.net.Uri
+import android.os.storage.StorageManager
+import android.os.storage.StorageVolume
 import android.provider.DocumentsContract
+import androidx.appcompat.app.AppCompatActivity
 import androidx.documentfile.provider.DocumentFile
 import java.io.BufferedInputStream
 import java.io.File
@@ -408,7 +411,8 @@ object FileUtil {
             val newFile = File(file, it.name!!)
             if (it.isDirectory) {
                 newFile.mkdirs()
-                DocumentFile.fromTreeUri(SudachiApplication.appContext, it.uri)?.copyFilesTo(newFile)
+                DocumentFile.fromTreeUri(SudachiApplication.appContext, it.uri)
+                    ?.copyFilesTo(newFile)
             } else {
                 val inputStream =
                     SudachiApplication.appContext.contentResolver.openInputStream(it.uri)
@@ -500,4 +504,29 @@ object FileUtil {
 
     fun Uri.asDocumentFile(): DocumentFile? =
         DocumentFile.fromSingleUri(SudachiApplication.appContext, this)
+
+    fun getRemovableDirectory(): String? {
+        val storageManager =
+            SudachiApplication.appContext.getSystemService(AppCompatActivity.STORAGE_SERVICE) as StorageManager
+        val volumes: List<StorageVolume> = storageManager.storageVolumes.toList()
+        for (volume in volumes) {
+            if (volume.isRemovable)
+                return volume.directory?.absolutePath
+        }
+        return null
+    }
+
+    fun isRemovableDirectory(path: String): Boolean {
+        val storageManager =
+            SudachiApplication.appContext.getSystemService(AppCompatActivity.STORAGE_SERVICE) as StorageManager
+        val volumes: List<StorageVolume> = storageManager.storageVolumes.toList()
+        for (volume in volumes) {
+            if (volume.isRemovable) {
+                val absolutePath = volume.directory?.absolutePath
+                if (absolutePath != null && path.indexOf(absolutePath) > -1) return true
+            }
+        }
+        return false
+    }
+
 }
