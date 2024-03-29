@@ -33,8 +33,8 @@ IAudioController::IAudioController(Core::System& system_)
         {16, nullptr, "SetInputTargetForceEnabled"},
         {17, D<&IAudioController::SetHeadphoneOutputLevelMode>, "SetHeadphoneOutputLevelMode"},
         {18, D<&IAudioController::GetHeadphoneOutputLevelMode>, "GetHeadphoneOutputLevelMode"},
-        {19, nullptr, "AcquireAudioVolumeUpdateEventForPlayReport"},
-        {20, nullptr, "AcquireAudioOutputDeviceUpdateEventForPlayReport"},
+        {19, nullptr, "SetForceMonauralOutputModeEnabled"}, // (AcquireAudioVolumeUpdateEventForPlayReport 3.0.0-13.2.1) 17.0.0+
+        {20, nullptr, "IsForceMonauralOutputModeEnabled"}, // (AcquireAudioOutputDeviceUpdateEventForPlayReport 3.0.0-13.2.1) 17.0.0+
         {21, nullptr, "GetAudioOutputTargetForPlayReport"},
         {22, D<&IAudioController::NotifyHeadphoneVolumeWarningDisplayedEvent>, "NotifyHeadphoneVolumeWarningDisplayedEvent"},
         {23, nullptr, "SetSystemOutputMasterVolume"},

@@ -17,8 +17,8 @@ namespace Service::HID {
 
 IHidDebugServer::IHidDebugServer(Core::System& system_, std::shared_ptr<ResourceManager> resource,
                                  std::shared_ptr<HidFirmwareSettings> settings)
-    : ServiceFramework{system_, "hid:dbg"}, resource_manager{resource}, firmware_settings{
-                                                                            settings} {
+    : ServiceFramework{system_, "hid:dbg"}, resource_manager{resource},
+      firmware_settings{settings} {
     // clang-format off
     static const FunctionInfo functions[] = {
         {0, nullptr, "DeactivateDebugPad"},
@@ -88,6 +88,7 @@ IHidDebugServer::IHidDebugServer(Core::System& system_, std::shared_ptr<Resource
         {211, nullptr, "StartFirmwareUpdateIndividual"},
         {215, nullptr, "SetUsbFirmwareForceUpdateEnabled"},
         {216, nullptr, "SetAllKuinaDevicesToFirmwareUpdateMode"},
+        {217, nullptr, "StartFirmwareUpdateFromImageSet"}, // 17.0.0+
         {221, nullptr, "UpdateControllerColor"},
         {222, nullptr, "ConnectUsbPadsAsync"},
         {223, nullptr, "DisconnectUsbPadsAsync"},
@@ -135,6 +136,8 @@ IHidDebugServer::IHidDebugServer(Core::System& system_, std::shared_ptr<Resource
         {331, nullptr, "DetachHdlsVirtualDevice"},
         {332, nullptr, "SetHdlsState"},
         {350, nullptr, "AddRegisteredDevice"},
+        {351, nullptr, "GetRegisteredDevicesCountDebug"}, // 17.0.0+
+        {352, nullptr, "DeleteRegisteredDevicesDebug"}, // 17.0.0+
         {400, nullptr, "DisableExternalMcuOnNxDevice"},
         {401, nullptr, "DisableRailDeviceFiltering"},
         {402, nullptr, "EnableWiredPairing"},

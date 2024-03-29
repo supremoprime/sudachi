@@ -266,6 +266,10 @@ public:
             {12, &IAudioDevice::QueryAudioDeviceOutputEvent, "QueryAudioDeviceOutputEvent"},
             {13, &IAudioDevice::GetActiveAudioDeviceName, "GetActiveAudioOutputDeviceName"},
             {14, &IAudioDevice::ListAudioOutputDeviceName, "ListAudioOutputDeviceName"},
+            {15, nullptr, "AcquireAudioInputDeviceNotification"},  // 17.0.0+
+            {16, nullptr, "ReleaseAudioInputDeviceNotification"},  // 17.0.0+
+            {17, nullptr, "AcquireAudioOutputDeviceNotification"}, // 17.0.0+
+            {18, nullptr, "ReleaseAudioOutputDeviceNotification"}  // 17.0.0+
         };
         RegisterHandlers(functions);
 
@@ -424,8 +428,8 @@ private:
 };
 
 AudRenU::AudRenU(Core::System& system_)
-    : ServiceFramework{system_, "audren:u"},
-      service_context{system_, "audren:u"}, impl{std::make_unique<Manager>(system_)} {
+    : ServiceFramework{system_, "audren:u"}, service_context{system_, "audren:u"},
+      impl{std::make_unique<Manager>(system_)} {
     // clang-format off
     static const FunctionInfo functions[] = {
         {0, &AudRenU::OpenAudioRenderer, "OpenAudioRenderer"},
