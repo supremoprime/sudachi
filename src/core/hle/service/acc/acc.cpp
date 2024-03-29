@@ -102,7 +102,8 @@ public:
             {150, nullptr, "CreateAuthorizationRequest"},
             {160, nullptr, "RequiresUpdateNetworkServiceAccountIdTokenCache"},
             {161, nullptr, "RequireReauthenticationOfNetworkServiceAccount"},
-            {170, nullptr, "CreateDeviceHistoryRequest"} // 17.0.0+
+            {170, nullptr, "CreateDeviceHistoryRequest"}, // 17.0.0+
+            {180, nullptr, "GetRequestForNintendoAccountReauthentication"} // 18.0.0+
         };
         // clang-format on
 
@@ -136,6 +137,7 @@ public:
             {13, nullptr, "GetLinkedNintendoAccountId"},
             {14, nullptr, "GetNickname"},
             {15, nullptr, "GetProfileImage"},
+            {16, nullptr, "GetProfileLargeImage"}, // 18.0.0+
             {21, nullptr, "LoadIdTokenCache"},
             {100, nullptr, "RegisterUser"}, // [1.0.0-3.0.2] RegisterAsync
             {101, nullptr, "RegisterUserWithUid"}, // [1.0.0-3.0.2] RegisterWithUidAsync
@@ -182,6 +184,7 @@ public:
             {160, nullptr, "RequiresUpdateNetworkServiceAccountIdTokenCache"},
             {161, nullptr, "RequireReauthenticationOfNetworkServiceAccount"},
             {170, nullptr, "CreateDeviceHistoryRequest"}, // 17.0.0+
+            {180, nullptr, "GetRequestForNintendoAccountReauthentication"}, // 18.0.0+
             {200, nullptr, "IsRegistered"},
             {201, nullptr, "RegisterAsync"},
             {202, nullptr, "UnregisterAsync"},
@@ -265,6 +268,7 @@ public:
             {101, nullptr, "GetLinkedNintendoAccountId"},
             {102, nullptr, "GetNickname"},
             {103, nullptr, "GetProfileImage"},
+            {104, nullptr, "GetProfileLargeImage"} // 18.0.0+
         };
         // clang-format on
 
@@ -319,6 +323,9 @@ public:
             {1, &IProfileCommon::GetBase, "GetBase"},
             {10, &IProfileCommon::GetImageSize, "GetImageSize"},
             {11, &IProfileCommon::LoadImage, "LoadImage"},
+            {20, nullptr, "GetLargeImageSize"}, // 18.0.0+
+            {21, nullptr, "LoadLargeImage"},    // 18.0.0+
+            {30, nullptr, "GetImageId"}         // 18.0.0+
         };
 
         RegisterHandlers(functions);
@@ -327,6 +334,7 @@ public:
             static const FunctionInfo editor_functions[] = {
                 {100, &IProfileCommon::Store, "Store"},
                 {101, &IProfileCommon::StoreWithImage, "StoreWithImage"},
+                {110, nullptr, "StoreWithLargeImage"} // 18.0.0+
             };
 
             RegisterHandlers(editor_functions);
@@ -532,6 +540,7 @@ public:
             {13, nullptr, "GetLinkedNintendoAccountId"},
             {14, nullptr, "GetNickname"},
             {15, nullptr, "GetProfileImage"},
+            {16, nullptr, "GetProfileLargeImage"}, // 18.0.0+
             {21, nullptr, "LoadIdTokenCache"}, // 3.0.0+
         };
         // clang-format on
@@ -686,13 +695,15 @@ public:
             {101, nullptr, "GetLinkedNintendoAccountId"},
             {102, nullptr, "GetNickname"},
             {103, nullptr, "GetProfileImage"},
+            {104, nullptr, "GetProfileLargeImage"}, // 18.0.0+
             {110, nullptr, "RegisterUserAsync"},
             {111, nullptr, "GetUid"},
             {200, nullptr, "ApplyResponseForUserCreationAsync"}, // 17.0.0+
             {205, nullptr, "SuspendAfterApplyResponse"}, // 17.0.0+
             {210, nullptr, "IsProfileAvailable"}, // 17.0.0+
             {220, nullptr, "RegisterUserAsyncWithoutProfile"}, // 17.0.0+
-            {221, nullptr, "RegisterUserWithProfileAsync"} // 17.0.0+
+            {221, nullptr, "RegisterUserWithProfileAsync"}, // 17.0.0+
+            {230, nullptr, "RegisterUserWithLargeImageProfileAsync"} // 18.0.0+
         };
         // clang-format on
 
