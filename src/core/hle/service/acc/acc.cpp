@@ -102,6 +102,7 @@ public:
             {150, nullptr, "CreateAuthorizationRequest"},
             {160, nullptr, "RequiresUpdateNetworkServiceAccountIdTokenCache"},
             {161, nullptr, "RequireReauthenticationOfNetworkServiceAccount"},
+            {170, nullptr, "CreateDeviceHistoryRequest"} // 17.0.0+
         };
         // clang-format on
 
@@ -180,6 +181,7 @@ public:
             {150, nullptr, "CreateAuthorizationRequest"},
             {160, nullptr, "RequiresUpdateNetworkServiceAccountIdTokenCache"},
             {161, nullptr, "RequireReauthenticationOfNetworkServiceAccount"},
+            {170, nullptr, "CreateDeviceHistoryRequest"}, // 17.0.0+
             {200, nullptr, "IsRegistered"},
             {201, nullptr, "RegisterAsync"},
             {202, nullptr, "UnregisterAsync"},
@@ -686,6 +688,11 @@ public:
             {103, nullptr, "GetProfileImage"},
             {110, nullptr, "RegisterUserAsync"},
             {111, nullptr, "GetUid"},
+            {200, nullptr, "ApplyResponseForUserCreationAsync"}, // 17.0.0+
+            {205, nullptr, "SuspendAfterApplyResponse"}, // 17.0.0+
+            {210, nullptr, "IsProfileAvailable"}, // 17.0.0+
+            {220, nullptr, "RegisterUserAsyncWithoutProfile"}, // 17.0.0+
+            {221, nullptr, "RegisterUserWithProfileAsync"} // 17.0.0+
         };
         // clang-format on
 

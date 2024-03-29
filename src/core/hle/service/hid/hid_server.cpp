@@ -128,6 +128,8 @@ IHidServer::IHidServer(Core::System& system_, std::shared_ptr<ResourceManager> r
         {210, C<&IHidServer::EndPermitVibrationSession>, "EndPermitVibrationSession"},
         {211, C<&IHidServer::IsVibrationDeviceMounted>, "IsVibrationDeviceMounted"},
         {212, C<&IHidServer::SendVibrationValueInBool>, "SendVibrationValueInBool"},
+        {213, nullptr, "SendVibrationValueInMode"}, // 17.0.0+
+        {214, nullptr, "SendVibrationValuesInMode"}, // 17.0.0+
         {300, C<&IHidServer::ActivateConsoleSixAxisSensor>, "ActivateConsoleSixAxisSensor"},
         {301, C<&IHidServer::StartConsoleSixAxisSensor>, "StartConsoleSixAxisSensor"},
         {302, C<&IHidServer::StopConsoleSixAxisSensor>, "StopConsoleSixAxisSensor"},
@@ -139,6 +141,8 @@ IHidServer::IHidServer(Core::System& system_, std::shared_ptr<ResourceManager> r
         {308, nullptr, "SetSevenSixAxisSensorFusionStrength"},
         {309, nullptr, "GetSevenSixAxisSensorFusionStrength"},
         {310, C<&IHidServer::ResetSevenSixAxisSensorTimestamp>, "ResetSevenSixAxisSensorTimestamp"},
+        {311, nullptr, "ForceActivateConsoleSixAxisSensor"}, // 17.0.0+
+        {312, nullptr, "ForceDeactivateConsoleSixAxisSensor"}, // 17.0.0+
         {400, C<&IHidServer::IsUsbFullKeyControllerEnabled>, "IsUsbFullKeyControllerEnabled"},
         {401, nullptr, "EnableUsbFullKeyController"},
         {402, nullptr, "IsUsbFullKeyControllerConnected"},

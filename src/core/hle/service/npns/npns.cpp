@@ -39,6 +39,14 @@ public:
             {32, nullptr, "DestroyTokenForBaaS"},
             {33, nullptr, "CreateTokenForBaaS"},
             {34, nullptr, "SetBaaSDeviceAccountIdList"},
+            {35, nullptr, "LinkNsaId"}, // 17.0.0+
+            {36, nullptr, "UnlinkNsaId"}, // 17.0.0+
+            {40, nullptr, "GetNetworkServiceAccountIdTokenRequestEvent"}, // 17.0.0+
+            {41, nullptr, "TryPopNetworkServiceAccountIdTokenRequestUid"}, // 17.0.0+
+            {42, nullptr, "SetNetworkServiceAccountIdTokenSuccess"}, // 17.0.0+
+            {43, nullptr, "SetNetworkServiceAccountIdTokenFailure"}, // 17.0.0+
+            {44, nullptr, "SetUidList"}, // 17.0.0+
+            {45, nullptr, "PutDigitalTwinKeyValue"}, // 17.0.0+
             {101, nullptr, "Suspend"},
             {102, nullptr, "Resume"},
             {103, nullptr, "GetState"},

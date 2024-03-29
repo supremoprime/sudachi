@@ -95,6 +95,7 @@ enum class NpadRevision : u32 {
     Revision1 = 1,
     Revision2 = 2,
     Revision3 = 3,
+    Revision5 = 5 // 18.0.0+
 };
 
 // This is nn::hid::detail::ColorAttribute
