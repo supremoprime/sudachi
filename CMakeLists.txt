@@ -291,6 +291,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 # System imported libraries
 # =======================================================================
 
+add_subdirectory(externals)
+
 # Enforce the search mode of non-required packages for better and shorter failure messages
 find_package(Boost 1.79.0 REQUIRED context)
 find_package(enet 1.3 MODULE)
@@ -700,7 +702,6 @@ if (SUDACHI_USE_FASTER_LD AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     endif()
 endif()
 
-add_subdirectory(externals)
 add_subdirectory(src)
 
 # Set sudachi project or sudachi-cmd project as default StartUp Project in Visual Studio depending on whether QT is enabled or not

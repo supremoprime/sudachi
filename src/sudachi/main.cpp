@@ -5245,8 +5245,8 @@ static void SetHighDPIAttributes() {
         Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
 #endif
 
-    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+    // QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    // QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 }
 
 int main(int argc, char* argv[]) {
