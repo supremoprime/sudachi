@@ -736,35 +736,35 @@ void GRenderWindow::wheelEvent(QWheelEvent* event) {
 }
 
 void GRenderWindow::TouchBeginEvent(const QTouchEvent* event) {
-    #ifdef ENABLE_QT6
+#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
     QList<QTouchEvent::TouchPoint> touch_points = event->points();
-    #else
+#else
     QList<QTouchEvent::TouchPoint> touch_points = event->touchPoints();
-    #endif
+#endif
     for (const auto& touch_point : touch_points) {
-        #ifdef ENABLE_QT6
+#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
         const auto [x, y] = ScaleTouch(touch_point.position());
-        #else
+#else
         const auto [x, y] = ScaleTouch(touch_point.pos());
-        #endif
+#endif
         const auto [touch_x, touch_y] = MapToTouchScreen(x, y);
         input_subsystem->GetTouchScreen()->TouchPressed(touch_x, touch_y, touch_point.id());
     }
 }
 
 void GRenderWindow::TouchUpdateEvent(const QTouchEvent* event) {
-    #ifdef ENABLE_QT6
+#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
     QList<QTouchEvent::TouchPoint> touch_points = event->points();
-    #else
+#else
     QList<QTouchEvent::TouchPoint> touch_points = event->touchPoints();
-    #endif
+#endif
     input_subsystem->GetTouchScreen()->ClearActiveFlag();
     for (const auto& touch_point : touch_points) {
-        #ifdef ENABLE_QT6
+#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
         const auto [x, y] = ScaleTouch(touch_point.position());
-        #else
+#else
         const auto [x, y] = ScaleTouch(touch_point.pos());
-        #endif
+#endif
         const auto [touch_x, touch_y] = MapToTouchScreen(x, y);
         input_subsystem->GetTouchScreen()->TouchMoved(touch_x, touch_y, touch_point.id());
     }

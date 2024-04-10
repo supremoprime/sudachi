@@ -16,6 +16,10 @@ void LoopProcess(Core::System& system) {
                                          std::make_shared<IPolicyManagerSystem>(system));
     server_manager->RegisterNamedService("omm", std::make_shared<IOperationModeManager>(system));
     server_manager->RegisterNamedService("spsm", std::make_shared<IPowerStateInterface>(system));
+    /*
+    TODO: (jarrodnorwell) ommdisp
+    https://switchbrew.org/wiki/OMM_services#ommdisp
+    */
     ServerManager::RunServer(std::move(server_manager));
 }
 

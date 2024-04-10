@@ -256,10 +256,10 @@ void ConfigureUi::InitializeLanguageComboBox() {
         locale.truncate(locale.lastIndexOf(QLatin1Char{'.'}));
         locale.remove(0, locale.lastIndexOf(QLatin1Char{'/'}) + 1);
         const QString lang = QLocale::languageToString(QLocale(locale).language());
-        #ifdef ENABLE_QT6
+#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
         const QString territory = QLocale::territoryToString(QLocale(locale).territory());
         ui->language_combobox->addItem(QStringLiteral("%1 (%2)").arg(lang, territory), locale);
-        #else
+#else
         const QString country = QLocale::countryToString(QLocale(locale).country());
         ui->language_combobox->addItem(QStringLiteral("%1 (%2)").arg(lang, country), locale);
         #endif

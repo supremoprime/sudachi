@@ -50,6 +50,9 @@ ACC_SU::ACC_SU(std::shared_ptr<Module> module_, std::shared_ptr<ProfileManager> 
         {210, nullptr, "CreateFloatingRegistrationRequest"},
         {211, nullptr, "CreateProcedureToRegisterUserWithNintendoAccount"},
         {212, nullptr, "ResumeProcedureToRegisterUserWithNintendoAccount"},
+        {213, nullptr, "CreateProcedureToCreateUserWithNintendoAccount"}, // 17.0.0+
+        {214, nullptr, "ResumeProcedureToCreateUserWithNintendoAccount"}, // 17.0.0+
+        {215, nullptr, "ResumeProcedureToCreateUserWithNintendoAccountAfterApplyResponse"}, // 17.0.0+
         {230, nullptr, "AuthenticateServiceAsync"},
         {250, nullptr, "GetBaasAccountAdministrator"},
         {290, nullptr, "ProxyProcedureForGuestLoginWithNintendoAccount"},
