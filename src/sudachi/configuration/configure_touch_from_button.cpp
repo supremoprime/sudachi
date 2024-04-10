@@ -505,11 +505,11 @@ void TouchScreenPreview::mouseMoveEvent(QMouseEvent* event) {
     if (!coord_label) {
         return;
     }
-    #ifdef ENABLE_QT6
+#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
     const auto pos = MapToDeviceCoords(event->position().x(), event->position().y());
-    #else
+#else
     const auto pos = MapToDeviceCoords(event->x(), event->y());
-    #endif
+#endif
     if (pos) {
         coord_label->setText(QStringLiteral("X: %1, Y: %2").arg(pos->x()).arg(pos->y()));
     } else {
@@ -527,11 +527,11 @@ void TouchScreenPreview::mousePressEvent(QMouseEvent* event) {
     if (event->button() != Qt::MouseButton::LeftButton) {
         return;
     }
-    #ifdef ENABLE_QT6
+#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
     const auto pos = MapToDeviceCoords(event->position().x(), event->position().y());
-    #else
+#else
     const auto pos = MapToDeviceCoords(event->x(), event->y());
-    #endif
+#endif
     if (pos) {
         emit DotAdded(*pos);
     }
@@ -547,11 +547,11 @@ bool TouchScreenPreview::eventFilter(QObject* obj, QEvent* event) {
         emit DotSelected(obj->property(PropId).toInt());
 
         drag_state.dot = qobject_cast<QLabel*>(obj);
-        #ifdef ENABLE_QT6
+#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
         drag_state.start_pos = mouse_event->globalPosition().toPoint();
-        #else
+#else
         drag_state.start_pos = mouse_event->globalPos();
-        #endif
+#endif
         return true;
     }
     case QEvent::Type::MouseMove: {
@@ -560,22 +560,23 @@ bool TouchScreenPreview::eventFilter(QObject* obj, QEvent* event) {
         }
         const auto mouse_event = static_cast<QMouseEvent*>(event);
         if (!drag_state.active) {
-            #ifdef ENABLE_QT6
+#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
             drag_state.active = (mouse_event->globalPosition().toPoint() - drag_state.start_pos)
                                     .manhattanLength() >= QApplication::startDragDistance();
-            #else
-            drag_state.active = (mouse_event->globalPos() - drag_state.start_pos)
-                                    .manhattanLength() >= QApplication::startDragDistance();
-            #endif
+#else
+            drag_state.active =
+                (mouse_event->globalPos() - drag_state.start_pos).manhattanLength() >=
+                QApplication::startDragDistance();
+#endif
             if (!drag_state.active) {
                 break;
             }
         }
-        #ifdef ENABLE_QT6
+#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
         auto current_pos = mapFromGlobal(mouse_event->globalPosition().toPoint());
-        #else
+#else
         auto current_pos = mapFromGlobal(mouse_event->globalPos());
-        #endif
+#endif
         current_pos.setX(std::clamp(current_pos.x(), contentsMargins().left(),
                                     contentsMargins().left() + contentsRect().width() - 1));
         current_pos.setY(std::clamp(current_pos.y(), contentsMargins().top(),

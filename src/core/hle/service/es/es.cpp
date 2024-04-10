@@ -85,6 +85,11 @@ public:
             {1019, nullptr, "Unknown1019"},
             {1020, nullptr, "Unknown1020"},
             {1021, nullptr, "Unknown1021"},
+            {1023, nullptr, "Unknown1023"}, // 17.0.0+
+            {1024, nullptr, "Unknown1024"}, // 17.0.0+
+            {1025, nullptr, "Unknown1025"}, // 17.0.0+
+            {1026, nullptr, "Unknown1026"}, // 17.0.0+
+            {1027, nullptr, "Unknown1027"}, // 17.0.0+
             {1501, nullptr, "Unknown1501"},
             {1502, nullptr, "Unknown1502"},
             {1503, nullptr, "Unknown1503"},

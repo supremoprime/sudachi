@@ -3,10 +3,12 @@
 
 #include <memory>
 
+#include "core/hle/service/cmif_types.h"
 #include "core/hle/service/fgm/fgm.h"
 #include "core/hle/service/ipc_helpers.h"
 #include "core/hle/service/server_manager.h"
 #include "core/hle/service/service.h"
+#include "core/hle/service/set/system_settings_server.h"
 #include "core/hle/service/sm/sm.h"
 
 namespace Service::FGM {
@@ -70,7 +72,19 @@ void LoopProcess(Core::System& system) {
     server_manager->RegisterNamedService("fgm", std::make_shared<FGM>(system, "fgm"));
     server_manager->RegisterNamedService("fgm:0", std::make_shared<FGM>(system, "fgm:0"));
     server_manager->RegisterNamedService("fgm:9", std::make_shared<FGM>(system, "fgm:9"));
-    server_manager->RegisterNamedService("fgm:dbg", std::make_shared<FGM_DBG>(system));
+
+    Service::OutLargeData<Service::Set::FirmwareVersionFormat, 8> firmware_version = nullptr;
+    system.ServiceManager()
+        .GetService<Service::Set::ISystemSettingsServer>("set:sys", true)
+        ->GetFirmwareVersion(firmware_version);
+
+    LOG_DEBUG(Service_FGM, "major={}, display_version={}", firmware_version->major,
+              std::string(firmware_version->display_version.begin(),
+                          firmware_version->display_version.end()));
+    if (firmware_version->major < 17) {
+        server_manager->RegisterNamedService("fgm:dbg", std::make_shared<FGM_DBG>(system));
+    }
+
     ServerManager::RunServer(std::move(server_manager));
 }
 

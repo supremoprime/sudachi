@@ -20,6 +20,9 @@ SPSM::SPSM(Core::System& system_) : ServiceFramework{system_, "spsm"} {
         {9, nullptr, "ChangeHomeButtonLongPressingTime"},
         {10, nullptr, "PutErrorState"},
         {11, nullptr, "InvalidateCurrentHomeButtonPressing"},
+        {12, nullptr, "Unknown12"}, // 17.0.0+
+        {13, nullptr, "Unknown13"}, // 17.0.0+
+        {14, nullptr, "Unknown14"} // 17.0.0+
     };
     // clang-format on
 
