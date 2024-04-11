@@ -31,6 +31,7 @@ IAlbumApplicationService::IAlbumApplicationService(Core::System& system_,
         {145, nullptr, "Unknown145"}, // 17.0.0+
         {146, nullptr, "Unknown146"}, // 17.0.0+
         {147, nullptr, "Unknown147"}, // 17.0.0+
+        {148, nullptr, "Unknown148"}, // 18.0.0+
         {60002, nullptr, "OpenAccessorSessionForApplication"},
     };
     // clang-format on

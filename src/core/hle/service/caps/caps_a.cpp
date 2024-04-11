@@ -40,7 +40,10 @@ IAlbumAccessorService::IAlbumAccessorService(Core::System& system_,
         {120, nullptr, "Unknown120"}, // 17.0.0+
         {130, nullptr, "Unknown130"}, // 17.0.0+
         {140, nullptr, "Unknown140"}, // 17.0.0+
+        {141, nullptr, "Unknown141"}, // 18.0.0+
         {150, nullptr, "Unknown150"}, // 17.0.0+
+        {151, nullptr, "Unknown151"}, // 17.0.0+
+        {160, nullptr, "Unknown160"}, // 17.0.0+
         {202, nullptr, "SaveEditedScreenShot"},
         {301, nullptr, "GetLastThumbnail"},
         {302, nullptr, "GetLastOverlayMovieThumbnail"},

@@ -17,13 +17,12 @@ namespace Service::ERPT {
 class ErrorReportContext final : public ServiceFramework<ErrorReportContext> {
 public:
     explicit ErrorReportContext(Core::System& system_) : ServiceFramework{system_, "erpt:c"} {
-        Service::OutLargeData<Service::Set::FirmwareVersionFormat, 8> firmware_version = nullptr;
-        system.ServiceManager()
-            .GetService<Service::Set::ISystemSettingsServer>("set:sys", true)
-            ->GetFirmwareVersion(firmware_version);
+        Service::Set::FirmwareVersionFormat firmware_version{};
+        Service::Set::GetFirmwareVersionImpl(firmware_version, system,
+                                             Service::Set::GetFirmwareVersionType::Version2);
 
         FunctionInfo create_report = {11, C<&ErrorReportContext::CreateReport>, "CreateReport"};
-        if (firmware_version->major > 17)
+        if (firmware_version.major >= 17)
             create_report = {11, C<&ErrorReportContext::CreateReportV1>,
                              "CreateReportV1"}; // 17.0.0+
 

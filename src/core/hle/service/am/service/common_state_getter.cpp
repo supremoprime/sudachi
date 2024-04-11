@@ -69,7 +69,9 @@ ICommonStateGetter::ICommonStateGetter(Core::System& system_, std::shared_ptr<Ap
         {501, nullptr, "SuppressDisablingSleepTemporarily"},
         {502, nullptr, "IsSleepEnabled"},
         {503, nullptr, "IsDisablingSleepSuppressed"},
+        {600, nullptr, "OpenNamedChannelAsChild"}, // 17.0.0+
         {900, D<&ICommonStateGetter::SetRequestExitToLibraryAppletAtExecuteNextProgramEnabled>, "SetRequestExitToLibraryAppletAtExecuteNextProgramEnabled"},
+        {910, nullptr, "GetLaunchRequiredTick"}, // 17.0.0+
     };
     // clang-format on
 
