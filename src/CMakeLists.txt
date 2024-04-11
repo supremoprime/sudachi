@@ -214,6 +214,6 @@ if (ENABLE_WEB_SERVICE)
 endif()
 
 if (ANDROID)
-    add_subdirectory(android/app/src/main/jni)
-    target_include_directories(sudachi-android PRIVATE android/app/src/main)
+    add_subdirectory(android/sudachi/src/main/jni)
+    target_include_directories(sudachi-android PRIVATE android/sudachi/src/main)
 endif()

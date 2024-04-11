@@ -94,8 +94,8 @@ if (ANDROID AND SUDACHI_DOWNLOAD_ANDROID_VVL)
                         WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/externals")
     endif()
 
-    # Copy the arm64 binary to src/android/app/main/jniLibs
-    set(vvl_lib_path "${CMAKE_CURRENT_SOURCE_DIR}/src/android/app/src/main/jniLibs/arm64-v8a/")
+    # Copy the arm64 binary to src/android/sudachi/main/jniLibs
+    set(vvl_lib_path "${CMAKE_CURRENT_SOURCE_DIR}/src/android/sudachi/src/main/jniLibs/arm64-v8a/")
     file(COPY "${CMAKE_BINARY_DIR}/externals/android-binaries-${vvl_version}/arm64-v8a/libVkLayer_khronos_validation.so"
             DESTINATION "${vvl_lib_path}")
 endif()
