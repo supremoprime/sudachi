@@ -73,17 +73,11 @@ void LoopProcess(Core::System& system) {
     server_manager->RegisterNamedService("fgm:0", std::make_shared<FGM>(system, "fgm:0"));
     server_manager->RegisterNamedService("fgm:9", std::make_shared<FGM>(system, "fgm:9"));
 
-    Service::OutLargeData<Service::Set::FirmwareVersionFormat, 8> firmware_version = nullptr;
-    system.ServiceManager()
-        .GetService<Service::Set::ISystemSettingsServer>("set:sys", true)
-        ->GetFirmwareVersion(firmware_version);
-
-    LOG_DEBUG(Service_FGM, "major={}, display_version={}", firmware_version->major,
-              std::string(firmware_version->display_version.begin(),
-                          firmware_version->display_version.end()));
-    if (firmware_version->major < 17) {
+    Service::Set::FirmwareVersionFormat firmware_version{};
+    Service::Set::GetFirmwareVersionImpl(firmware_version, system,
+                                         Service::Set::GetFirmwareVersionType::Version2);
+    if (firmware_version.major < 17) // Removed in 17.0.0
         server_manager->RegisterNamedService("fgm:dbg", std::make_shared<FGM_DBG>(system));
-    }
 
     ServerManager::RunServer(std::move(server_manager));
 }

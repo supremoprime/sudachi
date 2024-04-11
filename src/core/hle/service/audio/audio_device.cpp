@@ -14,6 +14,7 @@ IAudioDevice::IAudioDevice(Core::System& system_, u64 applet_resource_user_id, u
     : ServiceFramework{system_, "IAudioDevice"}, service_context{system_, "IAudioDevice"},
       impl{std::make_unique<AudioDevice>(system_, applet_resource_user_id, revision)},
       event{service_context.CreateEvent(fmt::format("IAudioDeviceEvent-{}", device_num))} {
+    // clang-format off
     static const FunctionInfo functions[] = {
         {0, D<&IAudioDevice::ListAudioDeviceName>, "ListAudioDeviceName"},
         {1, D<&IAudioDevice::SetAudioDeviceOutputVolume>, "SetAudioDeviceOutputVolume"},
@@ -29,7 +30,15 @@ IAudioDevice::IAudioDevice(Core::System& system_, u64 applet_resource_user_id, u
         {12, D<&IAudioDevice::QueryAudioDeviceOutputEvent>, "QueryAudioDeviceOutputEvent"},
         {13, D<&IAudioDevice::GetActiveAudioDeviceName>, "GetActiveAudioOutputDeviceName"},
         {14, D<&IAudioDevice::ListAudioOutputDeviceName>, "ListAudioOutputDeviceName"},
+        {15, nullptr, "AcquireAudioInputDeviceNotification"}, // 17.0.0+
+        {16, nullptr, "ReleaseAudioInputDeviceNotification"}, // 17.0.0+
+        {17, nullptr, "AcquireAudioOutputDeviceNotification"}, // 17.0.0+
+        {18, nullptr, "ReleaseAudioOutputDeviceNotification"}, // 17.0.0+
+        {19, nullptr, "SetAudioDeviceOutputVolumeAutoTuneEnabled"}, // 18.0.0+
+        {20, nullptr, "IsAudioDeviceOutputVolumeAutoTuneEnabled"} // 18.0.0+
     };
+    // clang-format on
+
     RegisterHandlers(functions);
 
     event->Signal();

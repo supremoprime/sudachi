@@ -70,7 +70,7 @@ IOlscServiceForSystemService::IOlscServiceForSystemService(Core::System& system_
         {1122, nullptr, "RepairIssue2"},
         {1123, nullptr, "RepairIssue3"},
         {1124, nullptr, "Unknown1124"},
-        {10000, D<&IOlscServiceForSystemService::CloneService>, "CloneService"},
+        {10000, D<&IOlscServiceForSystemService::CloneService>, "CloneService"} // 17.0.0+
     };
     // clang-format on
 

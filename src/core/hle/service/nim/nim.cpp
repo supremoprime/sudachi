@@ -218,6 +218,8 @@ public:
             {142, nullptr, "Unknown142"}, // 17.0.0+
             {143, nullptr, "Unknown143"}, // 17.0.0+
             {144, nullptr, "Unknown144"}, // 17.0.0+
+            {147, nullptr, "Unknown147"}, // 18.0.0+
+            {148, nullptr, "Unknown148"}, // 18.0.0+
             {3000, nullptr, "Unknown3000"}, // 17.0.0+
             {3001, nullptr, "Unknown3001"} // 17.0.0+
         };

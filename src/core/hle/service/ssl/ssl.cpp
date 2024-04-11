@@ -508,6 +508,7 @@ public:
             {7, nullptr, "SetDebugOption"},
             {8, nullptr, "GetDebugOption"},
             {8, nullptr, "ClearTls12FallbackFlag"},
+            {103, nullptr, "VerifySignature"} // 18.0.0+
         };
         // clang-format on
 
