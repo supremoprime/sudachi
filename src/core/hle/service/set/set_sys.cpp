@@ -786,6 +786,13 @@ void SET_SYS::GetKeyboardLayout(HLERequestContext& ctx) {
     rb.Push(static_cast<u32>(selected_keyboard_layout));
 }
 
+void SET_SYS::GetRebootlessSystemUpdateVersion(HLERequestContext& ctx) {
+    LOG_WARNING(Service_SET, "(STUBBED) called.");
+
+    IPC::ResponseBuilder rb{ctx, 2};
+    rb.Push(ResultSuccess);
+}
+
 void SET_SYS::GetDeviceTimeZoneLocationUpdatedTime(HLERequestContext& ctx) {
     LOG_WARNING(Service_SET, "called.");
 
@@ -1021,7 +1028,7 @@ SET_SYS::SET_SYS(Core::System& system_) : ServiceFramework{system_, "set:sys"}, 
         {146, nullptr, "SetConsoleSixAxisSensorAngularVelocityTimeBias"},
         {147, nullptr, "GetConsoleSixAxisSensorAngularAcceleration"},
         {148, nullptr, "SetConsoleSixAxisSensorAngularAcceleration"},
-        {149, nullptr, "GetRebootlessSystemUpdateVersion"},
+        {149, &SET_SYS::GetRebootlessSystemUpdateVersion, "GetRebootlessSystemUpdateVersion"},
         {150, &SET_SYS::GetDeviceTimeZoneLocationUpdatedTime, "GetDeviceTimeZoneLocationUpdatedTime"},
         {151, &SET_SYS::SetDeviceTimeZoneLocationUpdatedTime, "SetDeviceTimeZoneLocationUpdatedTime"},
         {152, &SET_SYS::GetUserSystemClockAutomaticCorrectionUpdatedTime, "GetUserSystemClockAutomaticCorrectionUpdatedTime"},

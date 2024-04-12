@@ -58,6 +58,7 @@ private:
     void GetOperationMode(HLERequestContext& ctx);
     void GetPerformanceMode(HLERequestContext& ctx);
     void GetBootMode(HLERequestContext& ctx);
+    void GetCradleFwVersion(HLERequestContext& ctx);
     void IsVrModeEnabled(HLERequestContext& ctx);
     void SetVrModeEnabled(HLERequestContext& ctx);
     void SetLcdBacklighOffEnabled(HLERequestContext& ctx);

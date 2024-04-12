@@ -43,6 +43,7 @@ private:
     void OpenSdCardFileSystem(HLERequestContext& ctx);
     void CreateSaveDataFileSystem(HLERequestContext& ctx);
     void CreateSaveDataFileSystemBySystemSaveDataId(HLERequestContext& ctx);
+    void IsExFatSupported(HLERequestContext& ctx);
     void OpenSaveDataFileSystem(HLERequestContext& ctx);
     void OpenSaveDataFileSystemBySystemSaveDataId(HLERequestContext& ctx);
     void OpenReadOnlySaveDataFileSystem(HLERequestContext& ctx);

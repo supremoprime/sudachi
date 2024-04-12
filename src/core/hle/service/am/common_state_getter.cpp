@@ -38,7 +38,7 @@ ICommonStateGetter::ICommonStateGetter(Core::System& system_, std::shared_ptr<Ap
         {30, nullptr, "GetHomeButtonReaderLockAccessor"},
         {31, &ICommonStateGetter::GetReaderLockAccessorEx, "GetReaderLockAccessorEx"},
         {32, nullptr, "GetWriterLockAccessorEx"},
-        {40, nullptr, "GetCradleFwVersion"},
+        {40, &ICommonStateGetter::GetCradleFwVersion, "GetCradleFwVersion"},
         {50, &ICommonStateGetter::IsVrModeEnabled, "IsVrModeEnabled"},
         {51, &ICommonStateGetter::SetVrModeEnabled, "SetVrModeEnabled"},
         {52, &ICommonStateGetter::SetLcdBacklighOffEnabled, "SetLcdBacklighOffEnabled"},
@@ -168,6 +168,13 @@ void ICommonStateGetter::GetAcquiredSleepLockEvent(HLERequestContext& ctx) {
     IPC::ResponseBuilder rb{ctx, 2, 1};
     rb.Push(ResultSuccess);
     rb.PushCopyObjects(applet->sleep_lock_event.GetHandle());
+}
+
+void ICommonStateGetter::GetCradleFwVersion(HLERequestContext& ctx) {
+    LOG_WARNING(Service_AM, "(STUBBED) called");
+
+    IPC::ResponseBuilder rb{ctx, 2};
+    rb.Push(ResultSuccess);
 }
 
 void ICommonStateGetter::IsVrModeEnabled(HLERequestContext& ctx) {

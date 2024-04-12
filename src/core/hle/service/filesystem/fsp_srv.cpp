@@ -756,7 +756,7 @@ FSP_SRV::FSP_SRV(Core::System& system_)
         {24, nullptr, "RegisterSaveDataFileSystemAtomicDeletion"},
         {25, nullptr, "DeleteSaveDataFileSystemBySaveDataSpaceId"},
         {26, nullptr, "FormatSdCardDryRun"},
-        {27, nullptr, "IsExFatSupported"},
+        {27, &FSP_SRV::IsExFatSupported, "IsExFatSupported"},
         {28, nullptr, "DeleteSaveDataFileSystemBySaveDataAttribute"},
         {30, nullptr, "OpenGameCardStorage"},
         {31, nullptr, "OpenGameCardFileSystem"},
@@ -944,6 +944,14 @@ void FSP_SRV::CreateSaveDataFileSystemBySystemSaveDataId(HLERequestContext& ctx)
 
     IPC::ResponseBuilder rb{ctx, 2};
     rb.Push(ResultSuccess);
+}
+
+void FSP_SRV::IsExFatSupported(HLERequestContext& ctx) {
+    LOG_INFO(Service_FS, "(STUBBED) called.");
+
+    IPC::ResponseBuilder rb{ctx, 3};
+    rb.Push(ResultSuccess);
+    rb.Push(0);
 }
 
 void FSP_SRV::OpenSaveDataFileSystem(HLERequestContext& ctx) {

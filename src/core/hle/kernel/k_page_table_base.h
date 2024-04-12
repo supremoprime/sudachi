@@ -208,6 +208,7 @@ private:
     size_t m_mapped_unsafe_physical_memory{};
     size_t m_mapped_insecure_memory{};
     size_t m_mapped_ipc_server_memory{};
+    size_t m_reserved_region_extra_size{};
     mutable KLightLock m_general_lock;
     mutable KLightLock m_map_physical_memory_lock;
     KLightLock m_device_map_lock;
@@ -693,6 +694,9 @@ public:
     }
     size_t GetAliasCodeRegionSize() const {
         return m_alias_code_region_end - m_alias_code_region_start;
+    }
+    size_t GetReservedRegionExtraSize() const {
+        return m_reserved_region_extra_size;
     }
 
     size_t GetNormalMemorySize() const {

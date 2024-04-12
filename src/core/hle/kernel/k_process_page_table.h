@@ -422,6 +422,9 @@ public:
     size_t GetAliasCodeRegionSize() const {
         return m_page_table.GetAliasCodeRegionSize();
     }
+    size_t GetReservedRegionExtraSize() const {
+        return m_page_table.GetReservedRegionExtraSize();
+    }
 
     size_t GetNormalMemorySize() const {
         return m_page_table.GetNormalMemorySize();

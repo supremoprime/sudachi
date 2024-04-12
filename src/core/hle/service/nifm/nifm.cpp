@@ -419,6 +419,14 @@ void IGeneralService::GetCurrentNetworkProfile(HLERequestContext& ctx) {
     rb.Push(ResultSuccess);
 }
 
+void IGeneralService::EnumerateNetworkInterfaces(HLERequestContext& ctx) {
+    for (const auto& interface : Network::GetAvailableNetworkInterfaces())
+        LOG_WARNING(Service_NIFM, "(STUBBED) called, interface={}", interface.name);
+
+    IPC::ResponseBuilder rb{ctx, 2};
+    rb.Push(ResultSuccess);
+}
+
 void IGeneralService::RemoveNetworkProfile(HLERequestContext& ctx) {
     LOG_WARNING(Service_NIFM, "(STUBBED) called");
 
@@ -565,6 +573,15 @@ void IGeneralService::IsAnyForegroundRequestAccepted(HLERequestContext& ctx) {
     rb.Push<u8>(is_accepted);
 }
 
+void IGeneralService::GetSsidListVersion(HLERequestContext& ctx) {
+    const u32 ssid = 1;
+    LOG_WARNING(Service_NIFM, "(STUBBED) called");
+
+    IPC::ResponseBuilder rb{ctx, 3};
+    rb.Push(ResultSuccess);
+    rb.Push<u64>(ssid);
+}
+
 IGeneralService::IGeneralService(Core::System& system_)
     : ServiceFramework{system_, "IGeneralService"}, network{system_.GetRoomNetwork()} {
     // clang-format off
@@ -573,7 +590,7 @@ IGeneralService::IGeneralService(Core::System& system_)
         {2, &IGeneralService::CreateScanRequest, "CreateScanRequest"},
         {4, &IGeneralService::CreateRequest, "CreateRequest"},
         {5, &IGeneralService::GetCurrentNetworkProfile, "GetCurrentNetworkProfile"},
-        {6, nullptr, "EnumerateNetworkInterfaces"},
+        {6, &IGeneralService::EnumerateNetworkInterfaces, "EnumerateNetworkInterfaces"},
         {7, nullptr, "EnumerateNetworkProfiles"},
         {8, nullptr, "GetNetworkProfile"},
         {9, nullptr, "SetNetworkProfile"},
@@ -592,7 +609,7 @@ IGeneralService::IGeneralService(Core::System& system_)
         {22, &IGeneralService::IsAnyForegroundRequestAccepted, "IsAnyForegroundRequestAccepted"},
         {23, nullptr, "PutToSleep"},
         {24, nullptr, "WakeUp"},
-        {25, nullptr, "GetSsidListVersion"},
+        {25, &IGeneralService::GetSsidListVersion, "GetSsidListVersion"},
         {26, nullptr, "SetExclusiveClient"},
         {27, nullptr, "GetDefaultIpSetting"},
         {28, nullptr, "SetDefaultIpSetting"},

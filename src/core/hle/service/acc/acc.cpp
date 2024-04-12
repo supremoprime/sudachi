@@ -99,6 +99,7 @@ public:
             {140, nullptr, "GetNetworkServiceLicenseCache"}, // 5.0.0+
             {141, nullptr, "RefreshNetworkServiceLicenseCacheAsync"}, // 5.0.0+
             {142, nullptr, "RefreshNetworkServiceLicenseCacheAsyncIfSecondsElapsed"}, // 5.0.0+
+            {143, nullptr, "GetNetworkServiceLicenseCacheEx"}, // 15.0.0+
             {150, nullptr, "CreateAuthorizationRequest"},
             {160, nullptr, "RequiresUpdateNetworkServiceAccountIdTokenCache"},
             {161, nullptr, "RequireReauthenticationOfNetworkServiceAccount"},
@@ -326,7 +327,7 @@ public:
             {11, &IProfileCommon::LoadImage, "LoadImage"},
             {20, nullptr, "GetLargeImageSize"}, // 18.0.0+
             {21, nullptr, "LoadLargeImage"}, // 18.0.0+
-            {30, nullptr, "GetImageId"} // 18.0.0+
+            {30, &IProfileCommon::GetImageId, "GetImageId"} // 18.0.0+
         };
         // clang-format on
 
@@ -403,6 +404,14 @@ protected:
 
         ctx.WriteBuffer(buffer);
         rb.Push(static_cast<u32>(buffer.size()));
+    }
+
+    void GetImageId(HLERequestContext& ctx) {
+        LOG_DEBUG(Service_ACC, "(STUBBED) called");
+
+        IPC::ResponseBuilder rb{ctx, 3};
+        rb.Push(ResultSuccess);
+        rb.Push(0);
     }
 
     void GetImageSize(HLERequestContext& ctx) {
