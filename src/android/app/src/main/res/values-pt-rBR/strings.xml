@@ -152,6 +152,7 @@
     <string name="keys_missing">Faltando chaves de encriptação</string>
     <string name="keys_missing_description">O firmware e jogos comerciais não poderão ser decriptados</string>
     <string name="keys_missing_help">https://sudachi-emu.org/help/quickstart/#dumping-decryption-keys</string>
+    <string name="custom_user_data_block">Quando um diretório customizado foi selecionado, só é possível abri-lo manualmente.</string>
 
     <!-- Applet launcher strings -->
     <string name="applets">Launcher de miniaplicativos</string>

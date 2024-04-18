@@ -365,8 +365,7 @@ object FileUtil {
                     }
 
                     if (!file.isDirectory) {
-                        val entryName =
-                            file.absolutePath.removePrefix(rootDir).removePrefix("/")
+                        val entryName = file.absolutePath.removePrefix(rootDir).removePrefix("/")
                         val entry = ZipEntry(entryName)
                         zos.putNextEntry(entry)
                         if (file.isFile) {

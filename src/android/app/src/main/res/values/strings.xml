@@ -153,6 +153,8 @@
     <string name="keys_missing">Encryption keys are missing</string>
     <string name="keys_missing_description">Firmware and retail games cannot be decrypted</string>
     <string name="keys_missing_help">https://sudachi-emu.org/help/quickstart/#dumping-decryption-keys</string>
+    <string name="custom_user_data_block">When a custom directory has been selected, it can only be opened manually.</string>
+    <string name="temperature_display">%s | CPU: %sºC</string>
 
     <!-- Applet launcher strings -->
     <string name="applets">Applet launcher</string>

@@ -58,6 +58,8 @@ import org.sudachi.sudachi_emu.overlay.model.OverlayControl
 import org.sudachi.sudachi_emu.overlay.model.OverlayLayout
 import org.sudachi.sudachi_emu.utils.*
 import org.sudachi.sudachi_emu.utils.ViewUtils.setVisible
+import java.io.BufferedReader
+import java.io.FileReader
 import java.lang.NullPointerException
 
 class EmulationFragment : Fragment(), SurfaceHolder.Callback {
@@ -532,7 +534,13 @@ class EmulationFragment : Fragment(), SurfaceHolder.Callback {
                         else -> "🙂"
                     }
                     if (_binding != null) {
-                        binding.showThermalsText.text = thermalStatus
+                        binding.showThermalsText.text =
+                            getString(R.string.temperature_display)
+                            .format(
+                                thermalStatus,
+                                getCpuTemperature()/*,
+                                getGpuTemperature()*/
+                            )
                     }
                     thermalStatsUpdateHandler.postDelayed(thermalStatsUpdater!!, 1000)
                 }
@@ -543,6 +551,33 @@ class EmulationFragment : Fragment(), SurfaceHolder.Callback {
                 thermalStatsUpdateHandler.removeCallbacks(thermalStatsUpdater!!)
             }
         }
+    }
+
+    private fun getTemperature(fileName: String): Float {
+        var temp = 0f
+        try {
+            val reader = BufferedReader(FileReader(fileName))
+            val tempString = reader.readLine()
+            temp = tempString.toFloat() / 1000
+            reader.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return temp
+    }
+
+    private fun getCpuTemperature(): Float {
+        return getTemperature("/sys/class/thermal/thermal_zone0/temp")
+    }
+
+    private fun getGpuTemperature(): Float {
+        // TODO: Identify gpu temps for multiple devices.
+        return getTemperature("/sys/class/thermal/thermal_zone1/temp")
+    }
+
+    // TODO: Let de user choose celsius or fahrenheit.
+    private fun celsiusToFahrenheit(celsius: Float): Float {
+        return celsius * 9 / 5 + 32
     }
 
     @SuppressLint("SourceLockedOrientationActivity")

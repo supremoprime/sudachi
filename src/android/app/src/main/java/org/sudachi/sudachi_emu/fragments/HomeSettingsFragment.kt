@@ -29,6 +29,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.transition.MaterialSharedAxis
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.sudachi.sudachi_emu.BuildConfig
 import org.sudachi.sudachi_emu.HomeNavigationDirections
 import org.sudachi.sudachi_emu.NativeLibrary
@@ -209,7 +210,11 @@ class HomeSettingsFragment : Fragment() {
                     R.string.open_user_folder,
                     R.string.open_user_folder_description,
                     R.drawable.ic_folder_open,
-                    { openFileManager() }
+                    { openFileManager() },
+                    isEnabled = {
+                        !FileUtil.isRemovableDirectory(DirectoryInitialization.userDirectory!!)
+                    },
+                    disabledMessageId = R.string.custom_user_data_block
                 )
             )
             add(
